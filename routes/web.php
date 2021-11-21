@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UsersController;
+use App\Http\Livewire\Users;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-Route::get('/users', [App\Http\Controllers\UsersController::class, 'index'])->name('users.index');
+Route::get('/', DashboardController::class)->name('dashboard')->middleware('auth');
+Route::get('/users', Users::class)->name('users')->middleware('auth');
+
+// Route::get('/users', [UsersController::class, 'index'])->name('users.index');

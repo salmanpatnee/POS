@@ -3,30 +3,61 @@
 namespace App\Http\Livewire;
 
 use App\Models\User;
+use Mediconesystems\LivewireDatatables\BooleanColumn;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Mediconesystems\LivewireDatatables\Column;
-use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\NumberColumn;
-use Mediconesystems\LivewireDatatables\BooleanColumn;
+use Mediconesystems\LivewireDatatables\DateColumn;
 
 class UsersTable extends LivewireDatatable
 {
     public $model = User::class;
 
-    public $beforeTableSlot = 'users.addButton';
+    public function changeStatus($id){
+        $user = User::find($id);
+        $user->active = !$user->active;
+        $user->save();
+        response()->json([], 200);
+    }
+
+    public function edit($id){
+        $this->emit('editUser', $id);
+    }
 
     public function columns()
     {
         return [
-            NumberColumn::name('id')->label('ID')->defaultSort('asc')->sortBy('id'),
-            Column::name('name')->label('Name')->searchable(),
-            Column::name('email')->label('Email')->searchable(),
-            Column::name('role.name')->label('Role'),
-            BooleanColumn::name('active')->label('Active'),
-            DateColumn::name('created_at')->label('Created at'),
-            Column::callback(['id', 'name'], function ($id, $name) {
-                return view('table-actions', ['id' => $id, 'name' => $name]);
-            })->unsortable()->label('Actions')
+            NumberColumn::name('id')
+                ->label('ID')
+                ->defaultSort('asc')
+                ->sortBy('id'),
+
+            Column::name('name')
+                ->label('Name'),
+
+            Column::name('email')
+                ->label('Email'),
+
+            Column::name('role.name')
+                ->label('Role'),
+
+            Column::callback(['id', 'active'], function ($id, $active) {
+                $checked = ($active) ? 'checked' : '';
+                return "
+                <div wire:change='changeStatus({$id})' class='custom-control custom-switch'>
+                  <input type='checkbox' class='custom-control-input' id='{$id}' {$checked}>
+                  <label class='custom-control-label' for='{$id}'></label>
+                </div>";
+            })->unsortable()->label('Status'), 
+
+              
+
+            DateColumn::name('created_at')
+                ->label('Created at'), 
+
+            Column::callback(['id'], function ($id) {
+                return "<div class='d-flex justify-content-around action'><i wire:click='edit({$id})' class='fas fa-edit'></i><i class='fas fa-trash text-danger'></i></div>";
+            })->unsortable()->label('Action')->alignCenter()
         ];
     }
 }

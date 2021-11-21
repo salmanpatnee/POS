@@ -47,10 +47,22 @@
  <script src="{{ asset('js/adminlte.js') }}"></script>
  <!-- AdminLTE for demo purposes -->
  <script src="{{ asset('js/demo.js') }}"></script>
- <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
- <script src="{{ asset('js/pages/dashboard.js') }}"></script>
+<script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('plugins/toastr/toastr.min.js')}}"></script>
+
 
  @livewireScripts
+ @stack('scripts')
+ <script>
+     $(document).ready(function(){
+        toastr.options = {
+            "positionClass": "toast-bottom-right", 
+            "progressBar": true
+        }
+     });
+ </script>
  </body>
 
  </html>

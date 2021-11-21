@@ -28,9 +28,19 @@
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/alpinejs/3.5.1/cdn.js"></script>
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{asset('plugins/toastr/toastr.min.css')}}">
+    
     @livewireStyles
+    @stack('styles')
+    <style>
+        [x-cloak] {
+           display: none;
+        }
+        .action i {
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
