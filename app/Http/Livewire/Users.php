@@ -4,29 +4,30 @@ namespace App\Http\Livewire;
 
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Validation\Rule;
 
 class Users extends Component
 {
     public $user;
     public $editMode = false;
 
-    protected function rules(){
+    protected function rules()
+    {
         return [
             'user.name'        => 'required|min:3|max:255',
-            'user.email' => 'required|email|unique:users,email',
-            'user.password' => 'required|string',
+            'user.email' => ['required', Rule::unique('users', 'email')->ignore($this->user['id'])],
+            'user.password' => 'sometimes|required|string',
             'user.role_id' => 'required|exists:roles,id',
         ];
     }
-
-    protected $messages = [
-        'user.name.required' => 'Name is required', 
-        'user.name.min' => 'Name length should be atleast 3 characters.', 
-        'user.email.required' => 'Email is required.', 
-        'user.email.unique' => 'Email is already in use.', 
-        'user.password.required' => 'Password is required.', 
-        'user.role_id.required' => 'Choose user role.', 
-    ];
+    // protected $messages = [
+    //     'user.name.required' => 'Name is required',
+    //     'user.name.min' => 'Name length should be atleast 3 characters.',
+    //     'user.email.required' => 'Email is required.',
+    //     'user.email.unique' => 'Email is already in use.',
+    //     'user.password.required' => 'Password is required.',
+    //     'user.role_id.required' => 'Choose user role.',
+    // ];
 
 
     public function render()
@@ -35,17 +36,27 @@ class Users extends Component
     }
 
     protected $listeners = ['editUser' => 'editUser'];
- 
-    public function editUser($id)
-    {
-        $user = User::find($id);
-        $this->editMode = true;
-        $this->$user = $user->toArray();
 
+    public function editUser($user)
+    {
+        $this->editMode = true;
+        $this->user = $user;
         $this->dispatchBrowserEvent('editUser');
     }
 
-    public function store(){
+    public function update()
+    {
+        $attributes = $this->validate();
+
+        $user = User::find($this->user['id']);
+
+
+        $update = $user->update($attributes);
+        dd($update);
+    }
+
+    public function store()
+    {
 
         $attributes = $this->validate();
 
