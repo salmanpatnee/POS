@@ -13,18 +13,29 @@ class UsersTable extends LivewireDatatable
 {
     public $model = User::class;
 
-    public function changeStatus($id)
+    public function changeStatus(User $user)
     {
-        $user = User::find($id);
         $user->active = !$user->active;
         $user->save();
+
         response()->json([], 200);
     }
 
-    public function edit(User $user)
+    public function edit($user)
     {
-        $this->emit('editUser', $user);
+        $this->emit('edit', $user);
     }
+
+    public function destroy($id)
+    {
+        $this->emit('destroy', $id);
+    }
+
+    public function editPassword($id)
+    {
+        $this->emit('editPassword', $id);
+    }
+
 
     public function columns()
     {
@@ -58,8 +69,12 @@ class UsersTable extends LivewireDatatable
                 ->label('Created at'),
 
             Column::callback(['id'], function ($id) {
-                $user = User::findOrFail($id);
-                return "<div class='d-flex justify-content-around action'><i wire:click.prevent='edit({$user})' class='fas fa-edit'></i><i class='fas fa-trash text-danger'></i></div>";
+
+                return "<div class='d-flex justify-content-between action'>
+                            <i wire:click='editPassword({$id})' class='fas fa-key'></i>
+                            <i wire:click='edit({$id})' class='fas fa-edit'></i>
+                            <i wire:click='destroy({$id})' class='fas fa-trash text-danger'></i>
+                        </div>";
             })->unsortable()->label('Action')->alignCenter()
         ];
     }

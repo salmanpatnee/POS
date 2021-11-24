@@ -16,6 +16,8 @@ use App\Http\Livewire\Users;
 |
 */
 
+
+
 Auth::routes();
 
 Route::get('/', DashboardController::class)->name('dashboard')->middleware('auth');
