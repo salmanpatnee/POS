@@ -40,7 +40,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return 1 == 1;
+        dd($user);
     }
 
     /**

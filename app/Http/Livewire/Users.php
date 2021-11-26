@@ -5,22 +5,15 @@ namespace App\Http\Livewire;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Users extends Component
 {
-    use AuthorizesRequests;
 
     public $user;
     public $password;
     public $password_confirmation;
     public $editMode = false;
 
-    public function mount()
-    {
-        $this->authorize('create');
-    }
 
     protected function rules()
     {

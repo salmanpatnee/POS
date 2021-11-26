@@ -3,11 +3,13 @@
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     @endpush
 
-    <div class="text-right">
-        <x-button class="btn-primary" wire:click.prevent="create">
-            <x-icon icon="user-plus" /> Add New User
-        </x-button>
-    </div>
+    @can('create')
+        <div class="text-right">
+            <x-button class="btn-primary" wire:click.prevent="create">
+                <x-icon icon="user-plus" /> Add New User
+            </x-button>
+        </div>
+    @endcan
 
     <livewire:users-table searchable="name, email" />
 
