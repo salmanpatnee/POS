@@ -15,8 +15,8 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->onUpdate('cascade');
-            $table->string('title');
+            $table->foreignId('category_id')->constrained()->onUpdate('cascade');
+            $table->string('name');
             $table->string('code')->unique()->nullable();
             $table->text('description')->nullable();
             $table->string('image')->nullable();

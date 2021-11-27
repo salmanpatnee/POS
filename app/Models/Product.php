@@ -24,4 +24,11 @@ class Product extends Model
         'purchase_price',
         'sale_price',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    protected $with = ['category'];
 }
