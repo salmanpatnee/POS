@@ -3,14 +3,24 @@
 namespace App\Http\Livewire\Products;
 
 use App\Models\Category;
+use App\Models\Product;
 use Livewire\Component;
 use Illuminate\Validation\Rule;
+use Livewire\WithFileUploads;
 
 class Products extends Component
 {
+    use WithFileUploads;
+
     public $product;
     public $editMode = false;
     public $categories = [];
+    public $image;
+
+    protected $listeners = [
+        'edit'    => 'edit',
+        // 'destroy' => 'confirmDelete',
+    ];
 
     public function mount()
     {
@@ -29,8 +39,12 @@ class Products extends Component
         return [
             'product.code'        => ['required', 'max:255', Rule::unique('products', 'code')],
             'product.name'        => ['required', 'max:255', Rule::unique('products', 'name')],
-            'product.category_id' => 'required|exists:categories,name',
-            'product.quantity'    => 'required|numeric|gt:0'
+            'product.category_id' => 'required|exists:categories,id',
+            'product.quantity'      => 'required|numeric|gt:0',
+            'product.purchase_price'    => 'required|numeric|gt:0', 
+            'product.sale_price'    => 'required_with:initial_page|numeric|gt:product.purchase_price', 
+            'product.description'    => 'nullable|string', 
+            'image' => 'required|image|mimes:jpg,png,webp'
         ];
     }
 
@@ -51,12 +65,25 @@ class Products extends Component
     {
         $attributes = $this->validate();
 
-        dd($attributes);
+        $product = Product::create($attributes['product']);
 
-        Category::create($attributes['category']);
+        $image = $this->image->store('photos');
 
-        $this->dispatchBrowserEvent('categoryAdded', ['message' => 'Category added successfully.']);
+        $product->update([
+            'image' => $image
+        ]);
+        
+        $this->dispatchBrowserEvent('productAdded', ['message' => 'Product added successfully.']);
 
         $this->emit('refreshLivewireDatatable');
+    }
+
+    public function edit(Product $product)
+    {
+        $this->editMode = true;
+        $this->resetValidation();
+
+        $this->product = $product;
+        $this->dispatchBrowserEvent('edit');
     }
 }

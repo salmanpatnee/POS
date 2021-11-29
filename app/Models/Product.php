@@ -16,7 +16,7 @@ class Product extends Model
      */
     protected $fillable = [
         'category_id',
-        'title',
+        'name',
         'code',
         'description',
         'image',
@@ -31,4 +31,8 @@ class Product extends Model
     }
 
     protected $with = ['category'];
+
+    public function getImage(){
+        return isset($this->image) ? asset('storage/' . $this->image) : '/img/product-placeholder.png';
+    }
 }

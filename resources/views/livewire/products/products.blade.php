@@ -87,15 +87,30 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row d-flex align-items-center">
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="product.image"
-                                                id="product.image" wire:model="product.image">
+                                            <input type="file" class="custom-file-input" 
+                                                id="image" wire:model="image">
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
+                                        
                                     </div>
+                                </div>
+                                <div class="col-sm">
+                                    @if ($editMode)
+                                    <img class="img-fluid img-thumbnail upload-preview" src="{{ $product->getImage() }}">
+                                @endif
+                                    {{-- @error('image') 
+                                    @else
+                                       
+                                        @else    
+                                            @if ($image)
+                                                    <img class="img-fluid img-thumbnail upload-preview" src="{{ $image->temporaryUrl() }}">
+                                                @endif
+                                            @endif
+                                    @enderror --}}
                                 </div>
                             </div>
                         </div>
@@ -144,11 +159,12 @@
 
             const createModal = $("#new_product_modal");
             const deleteModal = $("#delete_category_modal");
+
             window.addEventListener('create', event => {
                 createModal.modal();
             });
 
-            window.addEventListener('categoryAdded', event => {
+            window.addEventListener('productAdded', event => {
                 createModal.modal('hide');
                 toastr.success(event.detail.message, 'success');
             });

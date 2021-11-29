@@ -40,6 +40,12 @@
         .action i {
             cursor: pointer;
         }
+        img.product-table-thumbnail {
+            max-width: 50px;
+        }
+        img.upload-preview {
+            max-width: 150px;
+        }
     </style>
 </head>
 
