@@ -14,44 +14,40 @@ class Products extends Component
 
     public $product;
     public $editMode = false;
-    public $categories = [];
+    public  $categories = [];
     public $image;
+
+
 
     protected $listeners = [
         'edit'    => 'edit',
         // 'destroy' => 'confirmDelete',
     ];
 
-    public function mount()
-    {
-        $this->categories = Category::all();
-    }
 
     public function render()
     {
-        $categories = Category::all();
+        $this->categories = Category::all();
 
-        return view('livewire.products.products', compact('categories'));
+        return view('livewire.products.products');
     }
 
     protected function rules()
     {
+        $id = !is_null($this->product) ? $this->product->id : null;
+
         return [
-            'product.code'        => ['required', 'max:255', Rule::unique('products', 'code')],
-            'product.name'        => ['required', 'max:255', Rule::unique('products', 'name')],
-            'product.category_id' => 'required|exists:categories,id',
-            'product.quantity'      => 'required|numeric|gt:0',
-            'product.purchase_price'    => 'required|numeric|gt:0', 
-            'product.sale_price'    => 'required_with:initial_page|numeric|gt:product.purchase_price', 
-            'product.description'    => 'nullable|string', 
-            'image' => 'required|image|mimes:jpg,png,webp'
+            'product.code'           => ['required', 'max:255', Rule::unique('products', 'code')->ignore($id)],
+            'product.name'           => ['required', 'max:255', Rule::unique('products', 'name')->ignore($id)],
+            'product.category_id'    => 'required|exists:categories,id',
+            'product.quantity'       => 'required|numeric|gt:0',
+            'product.purchase_price' => 'required|gt:0',
+            'product.sale_price'     => 'required|gt:product.purchase_price',
+            'product.description'    => 'nullable|string',
+            'image'                  => 'nullable|image|mimes:jpg,png,webp'
         ];
     }
 
-    public function updated($propertyName)
-    {
-        $this->validateOnly($propertyName);
-    }
 
     public function create()
     {
@@ -72,7 +68,7 @@ class Products extends Component
         $product->update([
             'image' => $image
         ]);
-        
+
         $this->dispatchBrowserEvent('productAdded', ['message' => 'Product added successfully.']);
 
         $this->emit('refreshLivewireDatatable');
@@ -81,9 +77,30 @@ class Products extends Component
     public function edit(Product $product)
     {
         $this->editMode = true;
+        $this->image = '';
         $this->resetValidation();
 
         $this->product = $product;
         $this->dispatchBrowserEvent('edit');
+    }
+
+    public function update()
+    {
+        $attributes = $this->validate();
+
+        $this->product->update($attributes['product']);
+
+        if ($this->image) {
+            $image = $this->image->store('photos');
+
+            $this->product->update([
+                'image' => $image
+            ]);
+        }
+
+
+        $this->dispatchBrowserEvent('productAdded', ['message' => 'Product updated successfully.']);
+
+        $this->emit('refreshLivewireDatatable');
     }
 }

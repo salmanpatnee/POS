@@ -21,7 +21,7 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form wire:submit.prevent="{{ $editMode ? 'update' : 'store' }}">
+                <form enctype="multipart/form-data" wire:submit.prevent="{{ $editMode ? 'update' : 'store' }}">
                     <div class="modal-body">
                         <div class="container">
                             <div class="row">
@@ -38,7 +38,7 @@
                                             name="product.category_id" id="product.category_id"
                                             wire:model="product.category_id">
                                             <option value="">Select a Category</option>
-                                            @foreach (\App\Models\Category::all() as $category)
+                                            @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                                             @endforeach
                                         </select>
@@ -58,9 +58,9 @@
                                             <span class="input-group-text">PKR</span>
                                         </div>
 
-                                        <input type="number" class="form-control" id="product.purchase_price"
-                                            name="product.purchase_price" wire:model="product.purchase_price"
-                                            placeholder="Enter Purchase Price">
+                                        <input type="number" step="any" class="form-control"
+                                            id="product.purchase_price" name="product.purchase_price"
+                                            wire:model="product.purchase_price" placeholder="Enter Purchase Price">
                                         <x-form.error name="product.purchase_price" />
                                     </div>
                                 </div>
@@ -70,8 +70,8 @@
                                             <span class="input-group-text">PKR</span>
                                         </div>
 
-                                        <input type="number" class="form-control" id="product.sale_price"
-                                            name="product.sale_price" wire:model="product.sale_price"
+                                        <input type="number" step="any" class="form-control" id="product.sale_price"
+                                            name="product.sale_price" wire:model.lazy="product.sale_price"
                                             placeholder="Enter Sale Price">
                                         <x-form.error name="product.sale_price" />
                                     </div>
@@ -91,26 +91,23 @@
                                 <div class="col-sm">
                                     <div class="form-group">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" 
-                                                id="image" wire:model="image">
+                                            <input type="file" class="custom-file-input" id="image" wire:model="image">
                                             <label class="custom-file-label" for="customFile">Choose file</label>
                                         </div>
-                                        
+                                        <x-form.error name="image" />
                                     </div>
                                 </div>
                                 <div class="col-sm">
-                                    @if ($editMode)
-                                    <img class="img-fluid img-thumbnail upload-preview" src="{{ $product->getImage() }}">
-                                @endif
-                                    {{-- @error('image') 
-                                    @else
-                                       
-                                        @else    
-                                            @if ($image)
-                                                    <img class="img-fluid img-thumbnail upload-preview" src="{{ $image->temporaryUrl() }}">
-                                                @endif
-                                            @endif
-                                    @enderror --}}
+                                    @if ($image)
+                                        <img class="img-fluid img-thumbnail upload-preview"
+                                            src="{{ $image->temporaryUrl() }}">
+                                    @endif
+
+                                    @if ($editMode && !$image)
+                                        <img wire:show="" class="img-fluid img-thumbnail upload-preview"
+                                            src="{{ $product->getImage() }}">
+                                    @endif
+
                                 </div>
                             </div>
                         </div>
