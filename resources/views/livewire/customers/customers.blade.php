@@ -5,25 +5,47 @@
 
     <div class="text-right">
         <x-button class="btn-primary" wire:click.prevent="create">
-            <x-icon icon="layer-group nav-icon" /> Add New Category
+            <x-icon icon="plus nav-icon" /> Add New Customer
         </x-button>
     </div>
 
-    <livewire:categories.categories-table searchable="name" />
+    <livewire:customers.customer-table searchable="name" />
 
 
-    <div wire:ignore.self class="modal fade" id="new_category_modal" aria-hidden="true">
-        <div class="modal-dialog">
+    <div wire:ignore.self class="modal fade" id="new_customer_modal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h4 class="modal-title text-lg">{{ $editMode ? 'Edit Category' : 'Add Category' }}</h4>
+                    <h4 class="modal-title text-lg">{{ $editMode ? 'Edit Customer' : 'Add Customer' }}</h4>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <form wire:submit.prevent="{{ $editMode ? 'update' : 'store' }}">
                     <div class="modal-body">
-                        <x-form.input name="category.name" placeholder="Enter category" />
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <x-form.input name="customer.name" placeholder="Enter Name" />
+                                </div>
+                                <div class="col-sm">
+                                    <x-form.input type="email" name="customer.email" placeholder="Enter Email" />
+                                </div>
+                                <div class="col-sm">
+                                    <x-form.input type="tel" name="customer.phone" placeholder="Enter Phone Number" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <x-form.input name="customer.address" placeholder="Enter Address" />
+                                </div>
+
+                                <div class="col-sm">
+                                    <x-form.input type="date" name="customer.date_of_birth"
+                                        placeholder="Enter Date of Birth" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -38,18 +60,17 @@
         <!-- /.modal-dialog -->
     </div>
 
-
-    <div wire:ignore.self class="modal fade" id="delete_category_modal" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="delete_customer_modal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-danger">
-                    <h4 class="modal-title text-lg">Delete Category</h4>
+                    <h4 class="modal-title text-lg">Delete Product</h4>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete this category?</p>
+                    <p>Are you sure you want to delete this product?</p>
                 </div>
                 <div class="modal-footer ">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -68,27 +89,28 @@
     <script>
         $(function() {
 
-            const createModal = $("#new_category_modal");
-            const deleteModal = $("#delete_category_modal");
+            const createModal = $("#new_customer_modal");
+            const deleteModal = $("#delete_customer_modal");
+
             window.addEventListener('create', event => {
                 createModal.modal();
             });
 
-            window.addEventListener('categoryAdded', event => {
+            window.addEventListener('customerAdded', event => {
                 createModal.modal('hide');
                 toastr.success(event.detail.message, 'success');
             });
             window.addEventListener('edit', event => {
                 createModal.modal();
             });
-            window.addEventListener('categoryUpdated', event => {
+            window.addEventListener('customerUpdated', event => {
                 createModal.modal('hide');
                 toastr.success(event.detail.message, 'success');
             });
             window.addEventListener('confirmDelete', event => {
                 deleteModal.modal();
             });
-            window.addEventListener('categoryDeleted', event => {
+            window.addEventListener('customerDeleted', event => {
                 deleteModal.modal('hide');
                 toastr.success(event.detail.message, 'success');
             });

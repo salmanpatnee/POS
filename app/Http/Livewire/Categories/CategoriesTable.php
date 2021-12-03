@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Categories;
 
 use App\Models\Category;
 use Mediconesystems\LivewireDatatables\Column;

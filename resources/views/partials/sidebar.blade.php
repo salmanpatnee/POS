@@ -40,14 +40,22 @@
                         </p>
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a href="{{ route('customers') }}"
+                        class="nav-link {{ request()->is('customers') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-users-cog"></i>
+                        <p>
+                            Customers
+                        </p>
+                    </a>
+                </li>
                 <li
                     class="nav-item {{ request()->is('categories') || request()->is('products') ? 'menu-open' : '' }}">
                     <a href="#"
                         class="nav-link {{ request()->is('categories') || request()->is('products') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-box-open"></i>
                         <p>
-                            Products
+                            Manage Products
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -56,7 +64,7 @@
                             <a href="{{ route('products') }}"
                                 class="nav-link {{ request()->is('products') ? 'active' : '' }}">
                                 <i class="fas fa-box-open nav-icon"></i>
-                                <p>Products</p>
+                                <p>All Products</p>
                             </a>
                         </li>
                         <li class="nav-item">

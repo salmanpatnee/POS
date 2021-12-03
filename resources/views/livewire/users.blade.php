@@ -3,38 +3,32 @@
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     @endpush
 
-    @can('create')
-        <div class="text-right">
-            <x-button class="btn-primary" wire:click.prevent="create">
-                <x-icon icon="user-plus" /> Add New User
-            </x-button>
-        </div>
-    @endcan
 
-    <livewire:users-table searchable="name, email" />
+    <div class="text-right">
+        <x-button class="btn-primary" wire:click.prevent="create">
+            <x-icon icon="user-plus" /> Add New User
+        </x-button>
+    </div>
 
+
+    <livewire:users.users-table searchable="name, email" />
 
     <div wire:ignore.self class="modal fade" id="new_user_modal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-
                 <div class="modal-header bg-primary">
-                    <h4 class="modal-title text-lg">{{ $editMode ? 'Edit User' : 'Add User' }}</h4>
+                    <h4 class="modal-title text-lg">{{ $editMode ? 'Edit Category' : 'Add Category' }}</h4>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-
                 <form wire:submit.prevent="{{ $editMode ? 'update' : 'store' }}">
                     <div class="modal-body">
                         <x-form.input name="user.name" placeholder="Enter name" />
                         <x-form.input type="email" name="user.email" placeholder="Enter email" />
-
                         @if (!$editMode)
                             <x-form.input type="password" name="user.password" placeholder="Enter password" />
                         @endif
-
-
                         <div class="form-group">
                             <select class="form-control @error('user.role_id') is-invalid @enderror" id="role"
                                 wire:model="user.role_id">
@@ -48,12 +42,10 @@
 
                     </div>
                     <div class="modal-footer">
-                        <x-button class="btn-default" data-dismiss="modal">
-                            Close
-                        </x-button>
-                        <x-button type="submit" class="btn-primary" data-dismiss="modal">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">
                             {{ $editMode ? 'Update' : 'Save' }}
-                        </x-button>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -61,6 +53,9 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+
+
+
 
     <div wire:ignore.self class="modal fade" id="delete_user_modal" aria-hidden="true">
         <div class="modal-dialog">

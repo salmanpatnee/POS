@@ -125,17 +125,17 @@
         <!-- /.modal-dialog -->
     </div>
 
-    {{-- <div wire:ignore.self class="modal fade" id="delete_category_modal" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="delete_product_modal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-danger">
-                    <h4 class="modal-title text-lg">Delete Category</h4>
+                    <h4 class="modal-title text-lg">Delete Product</h4>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete this category?</p>
+                    <p>Are you sure you want to delete this product?</p>
                 </div>
                 <div class="modal-footer ">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -146,7 +146,7 @@
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
-    </div> --}}
+    </div>
 
 </div>
 @push('scripts')
@@ -155,7 +155,7 @@
         $(function() {
 
             const createModal = $("#new_product_modal");
-            const deleteModal = $("#delete_category_modal");
+            const deleteModal = $("#delete_product_modal");
 
             window.addEventListener('create', event => {
                 createModal.modal();
@@ -175,10 +175,10 @@
             window.addEventListener('confirmDelete', event => {
                 deleteModal.modal();
             });
-            window.addEventListener('categoryDeleted', event => {
+            window.addEventListener('productDeleted', event => {
                 deleteModal.modal('hide');
                 toastr.success(event.detail.message, 'success');
             });
         });
-    </script> --}}
+    </script>
 @endpush

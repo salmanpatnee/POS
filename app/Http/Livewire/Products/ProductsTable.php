@@ -16,7 +16,12 @@ class ProductsTable extends LivewireDatatable
     {
         $this->emit('edit', $user);
     }
-    
+
+    public function destroy($user)
+    {
+        $this->emit('destroy', $user);
+    }
+
     public function columns()
     {
         return [
@@ -32,7 +37,7 @@ class ProductsTable extends LivewireDatatable
                 $image_src = Product::find($id)->getImage();
                 // $stock_indication_class = ($quantity <= 10) ? 'danger' : 'info';
                 return "
-                <img class='img-fluid img-thumbnail product-table-thumbnail' src='".asset($image_src)."'>";
+                <img class='img-fluid img-thumbnail product-table-thumbnail' src='" . asset($image_src) . "'>";
             })->unsortable()->label('Image'),
 
             // Column::name('image')

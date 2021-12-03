@@ -21,7 +21,7 @@ class Products extends Component
 
     protected $listeners = [
         'edit'    => 'edit',
-        // 'destroy' => 'confirmDelete',
+        'destroy' => 'confirmDelete',
     ];
 
 
@@ -100,6 +100,23 @@ class Products extends Component
 
 
         $this->dispatchBrowserEvent('productAdded', ['message' => 'Product updated successfully.']);
+
+        $this->emit('refreshLivewireDatatable');
+    }
+
+    public function confirmDelete(Product $product)
+    {
+
+        $this->dispatchBrowserEvent('confirmDelete');
+        $this->product = $product;
+    }
+
+    public function destroy()
+    {
+
+        $this->product->delete();
+
+        $this->dispatchBrowserEvent('productDeleted', ['message' => 'Product deleted successfully.']);
 
         $this->emit('refreshLivewireDatatable');
     }

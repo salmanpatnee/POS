@@ -2,11 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProductController;
-use App\Http\Livewire\Categories;
+use App\Http\Livewire\Categories\Categories;
 use App\Http\Livewire\Products\Products;
-use App\Http\Livewire\Test;
-use App\Http\Livewire\Users;
+use App\Http\Livewire\Users\Users;
+use App\Http\Livewire\Customers\Customers;
 use Illuminate\Routing\Route as RoutingRoute;
 
 /*
@@ -32,3 +31,4 @@ Route::get('/', DashboardController::class)->name('dashboard')->middleware('auth
 Route::get('/users', Users::class)->name('users')->middleware('auth');
 Route::get('/categories', Categories::class)->name('categories')->middleware('auth');
 Route::get('/products', Products::class)->name('products')->middleware('auth');
+Route::get('/customers', Customers::class)->name('customers')->middleware('auth');
