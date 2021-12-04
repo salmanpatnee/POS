@@ -77,6 +77,32 @@
                     </ul>
                 </li>
 
+                <li class="nav-item {{ request()->is('sales') || request()->is('sales') ? 'menu-open' : '' }}">
+                    <a href="#"
+                        class="nav-link {{ request()->is('sales') || request()->is('sales') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p>
+                            Manage Sales
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('sales') }}"
+                                class="nav-link {{ request()->is('sales') ? 'active' : '' }}">
+                                <i class="fas fa-cart-plus nav-icon"></i>
+                                <p>Sales</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('sales') }}"
+                                class="nav-link {{ request()->is('sales') ? 'active' : '' }}">
+                                <i class="fas fa-cart-plus nav-icon"></i>
+                                <p>Add Sale</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
 
 

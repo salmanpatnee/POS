@@ -6,6 +6,8 @@ use App\Http\Livewire\Categories\Categories;
 use App\Http\Livewire\Products\Products;
 use App\Http\Livewire\Users\Users;
 use App\Http\Livewire\Customers\Customers;
+use App\Http\Livewire\Sales\NewSale;
+use App\Http\Livewire\Sales\Sales;
 use Illuminate\Routing\Route as RoutingRoute;
 
 /*
@@ -32,3 +34,5 @@ Route::get('/users', Users::class)->name('users')->middleware('auth');
 Route::get('/categories', Categories::class)->name('categories')->middleware('auth');
 Route::get('/products', Products::class)->name('products')->middleware('auth');
 Route::get('/customers', Customers::class)->name('customers')->middleware('auth');
+Route::get('/sales', Sales::class)->name('sales')->middleware('auth');
+Route::get('/sales/create', NewSale::class)->name('sales.create')->middleware('auth');
