@@ -95,8 +95,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('sales') }}"
-                                class="nav-link {{ request()->is('sales') ? 'active' : '' }}">
+                            <a href="{{ route('sales.create') }}"
+                                class="nav-link {{ request()->is('sales.create') ? 'active' : '' }}">
                                 <i class="fas fa-cart-plus nav-icon"></i>
                                 <p>Add Sale</p>
                             </a>
