@@ -15,6 +15,14 @@ class CreateSalesTable extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
+            $table->string('invoice_id');
+            $table->foreignId('customer_id');
+            $table->foreignId('user_id');
+            $table->foreignId('product_id');
+            $table->decimal('tax', 10, 2)->nullable();
+            $table->decimal('net', 10, 2);
+            $table->decimal('total', 10, 2);
+            $table->integer('payment_method')->default(1);
             $table->timestamps();
         });
     }

@@ -8,6 +8,7 @@ use App\Http\Livewire\Users\Users;
 use App\Http\Livewire\Customers\Customers;
 use App\Http\Livewire\Sales\NewSale;
 use App\Http\Livewire\Sales\Sales;
+use App\Models\Sale;
 use Illuminate\Routing\Route as RoutingRoute;
 
 /*
@@ -23,8 +24,17 @@ use Illuminate\Routing\Route as RoutingRoute;
 
 // route::get('/test', function () {
 
-//     return auth()->user()->role->name;
-// })->middleware('can:create,user');
+//     $latestSale = Sale::orderBy('created_at', 'DESC')->first();
+//     $invoiceNum = 1;
+
+//     if (!is_null($latestSale)) {
+//         $invoiceNum = $latestSale->id + 1;
+//     }
+
+//     return str_pad($invoiceNum, 8, "0", STR_PAD_LEFT);
+
+
+// });
 
 
 Auth::routes();
